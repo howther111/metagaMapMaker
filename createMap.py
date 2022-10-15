@@ -83,13 +83,6 @@ if __name__ == '__main__':
             yPoint = midashiSize + (cellSize / 2) + (y * cellSize)
             xPoint2 = xPoint - (w / 2)
             yPoint2 = yPoint - (h / 2) - 30
-            mapChip = Image.new("RGB", (w, h), (0, 0, 0, 255))
-            mapChip.putalpha(128)
-            mapChip.save("toukaTest.png")
-            #mapChip = draw_transparent_text(mapChip, text=mapText, pos=(0, 0), font=font, fill=(0, 0, 0), alpha=0.5)
-            #im.paste(mapChip, (int(xPoint), int(yPoint)))
-
-            #im = draw_transparent_text(im, text=mapText, pos=(xPoint2, yPoint2), font=font, fill=(0 ,0 ,0), alpha=0.5)
             draw.text((xPoint - (w / 2), yPoint - (h / 2) - 30), mapText, fill=(0, 0, 0), font=font)
 
     im.save(settings.outputImg)
