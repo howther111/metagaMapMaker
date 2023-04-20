@@ -28,29 +28,29 @@ if __name__ == '__main__':
     # print(len(l[0]))
     xMax = len(l[0])
     yMax = len(l)
-    cellSize = 200
-    midashiSize = 50
+    cellSize = settings.pixelSize * settings.cellNum
+    midashiSize = (settings.pixelSize // 4) * settings.cellNum
     xSize = xMax * cellSize + midashiSize
     ySize = yMax * cellSize + midashiSize
-    lineWidth = 5
-    fontsize = 40
+    lineWidth = (settings.pixelSize // 40) * settings.cellNum
+    fontsize = (settings.pixelSize // 5) * settings.cellNum
 
-    im = Image.new('RGB', (xSize, ySize), (255, 255, 255))
+    im = Image.new('RGB', (xSize, ySize), settings.mainColor)
     backgrouwnIm = Image.open(settings.backgroundImg)
     im.paste(backgrouwnIm, (midashiSize, midashiSize))
     draw = ImageDraw.Draw(im)
-    draw.line((0, 0, 0, ySize), fill=(0, 0, 0), width=lineWidth)
-    draw.line((0, 0, xSize, 0), fill=(0, 0, 0), width=lineWidth)
+    draw.line((0, 0, 0, ySize), fill=settings.lineColor, width=lineWidth)
+    draw.line((0, 0, xSize, 0), fill=settings.lineColor, width=lineWidth)
     font = ImageFont.truetype('C:/Windows/Fonts/meiryo.ttc', fontsize)
 
     # 升目描画
     for x in range(xMax + 1):
         xZahyo = x * cellSize + midashiSize
-        draw.line((xZahyo, 0, xZahyo, ySize), fill=(0, 0, 0), width=lineWidth)
+        draw.line((xZahyo, 0, xZahyo, ySize), fill=settings.lineColor, width=lineWidth)
 
     for y in range(yMax + 1):
         yZahyo = y * cellSize + midashiSize
-        draw.line((0, yZahyo, xSize, yZahyo), fill=(0, 0, 0), width=lineWidth)
+        draw.line((0, yZahyo, xSize, yZahyo), fill=settings.lineColor, width=lineWidth)
 
     # 文字描画
     num = 1
@@ -60,7 +60,7 @@ if __name__ == '__main__':
         w, h = draw.textsize(str(num), font)
         # print(w)
         # print(h)
-        draw.text((xPoint - (w / 2), yPoint - (h / 2) - 4), str(num), fill=(0, 0, 0), font=font)
+        draw.text((xPoint - (w / 2), yPoint - (h / 2) - (4 * settings.cellNum)), str(num), fill=settings.lineColor, font=font)
         num = num + 1
 
     num = 1
@@ -69,21 +69,21 @@ if __name__ == '__main__':
         yPoint = midashiSize + (cellSize / 2) + (y * cellSize)
         alphaNum = numToAlpha.numToAlphaOne(num)
         w, h = draw.textsize(alphaNum, font)
-        draw.text((xPoint - (w / 2), yPoint - (h / 2) - 4), alphaNum, fill=(0, 0, 0), font=font)
+        draw.text((xPoint - (w / 2), yPoint - (h / 2) - (4 * settings.cellNum)), alphaNum, fill=settings.lineColor, font=font)
         num = num + 1
 
     # 地形読込
     for y in range(yMax):
         for x in range(xMax):
-            cellFontsize = 200
+            cellFontsize = cellSize
             font = ImageFont.truetype('C:/Windows/Fonts/meiryo.ttc', cellFontsize)
             mapText = l[y][x]
             w, h = draw.textsize(mapText, font)
             xPoint = midashiSize + (cellSize / 2) + (x * cellSize)
             yPoint = midashiSize + (cellSize / 2) + (y * cellSize)
             xPoint2 = xPoint - (w / 2)
-            yPoint2 = yPoint - (h / 2) - 30
-            draw.text((xPoint - (w / 2), yPoint - (h / 2) - 30), mapText, fill=(0, 0, 0), font=font)
+            yPoint2 = yPoint - (h / 2) - (30 * settings.cellNum)
+            draw.text((xPoint - (w / 2), yPoint - (h / 2) - (30 * settings.cellNum)), mapText, fill=settings.lineColor, font=font)
 
     im.save(settings.outputImg)
     print("Program End")
