@@ -19,15 +19,22 @@ def draw_transparent_text(src_canvas, text, pos, font, fill, alpha):
 
 if __name__ == '__main__':
     print("Program Start")
-    # マップサイズ読込
-    with open(settings.mapFile, encoding="utf_8") as f:
-        reader = csv.reader(f)
-        l = [row for row in reader]
 
-    # print(len(l))
-    # print(len(l[0]))
-    xMax = len(l[0])
-    yMax = len(l)
+    csvFlg = settings.csvFlg
+
+    # マップサイズ読込
+    l = None
+    xMax = settings.noCsvXMax
+    yMax = settings.noCsvYMax
+    if csvFlg:
+        with open(settings.mapFile, encoding="utf_8") as f:
+            reader = csv.reader(f)
+            l = [row for row in reader]
+            # print(len(l))
+            # print(len(l[0]))
+            xMax = len(l[0])
+            yMax = len(l)
+
     cellSize = settings.pixelSize * settings.cellNum
     midashiSize = (settings.pixelSize // 4) * settings.cellNum
     xSize = xMax * cellSize + midashiSize
@@ -73,17 +80,19 @@ if __name__ == '__main__':
         num = num + 1
 
     # 地形読込
-    for y in range(yMax):
-        for x in range(xMax):
-            cellFontsize = cellSize
-            font = ImageFont.truetype('C:/Windows/Fonts/meiryo.ttc', cellFontsize)
-            mapText = l[y][x]
-            w, h = draw.textsize(mapText, font)
-            xPoint = midashiSize + (cellSize / 2) + (x * cellSize)
-            yPoint = midashiSize + (cellSize / 2) + (y * cellSize)
-            xPoint2 = xPoint - (w / 2)
-            yPoint2 = yPoint - (h / 2) - (30 * settings.cellNum)
-            draw.text((xPoint - (w / 2), yPoint - (h / 2) - (30 * settings.cellNum)), mapText, fill=settings.lineColor, font=font)
+    if csvFlg:
+        for y in range(yMax):
+            for x in range(xMax):
+                cellFontsize = cellSize
+                font = ImageFont.truetype('C:/Windows/Fonts/meiryo.ttc', cellFontsize)
+                mapText = l[y][x]
+                w, h = draw.textsize(mapText, font)
+                xPoint = midashiSize + (cellSize / 2) + (x * cellSize)
+                yPoint = midashiSize + (cellSize / 2) + (y * cellSize)
+                xPoint2 = xPoint - (w / 2)
+                yPoint2 = yPoint - (h / 2) - (30 * settings.cellNum)
+                draw.text((xPoint - (w / 2), yPoint - (h / 2) - (30 * settings.cellNum)), mapText,
+                          fill=settings.lineColor, font=font)
 
     im.save(settings.outputImg)
     print("Program End")

@@ -1,7 +1,10 @@
 mapFile = 'mapblank.csv'
-backgroundImg = "zodiac2.png"
-outputImg = "zodiac2output.png"
-cellNum = 3
+backgroundImg = "academia2.png"
+outputImg = "academia2output.png"
+cellNum = 1
 pixelSize = 200
-mainColor = (0, 0, 0)
-lineColor = (255, 255, 255)
+mainColor = (255, 255, 255)
+lineColor = (0, 0, 0)
+csvFlg = False
+noCsvXMax = 12
+noCsvYMax = 8
